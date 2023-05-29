@@ -5,9 +5,7 @@ from django.core.management import BaseCommand
 
 from recipes.models import Ingredient, Tag
 
-ALREDY_LOADED_ERROR_MESSAGE = """
-The database is already loaded.
-"""
+ALREDY_LOADED_ERROR_MESSAGE = 'The database is already loaded.'
 
 ingredients_file = f'{settings.BASE_DIR}/data/ingredients.csv'
 tags_file = f'{settings.BASE_DIR}/data/tags.csv'
@@ -27,21 +25,8 @@ class Command(BaseCommand):
                 print(ALREDY_LOADED_ERROR_MESSAGE)
                 return
 
-        with open(ingredients_file, encoding='utf-8') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                ingredient = Ingredient(
-                    name=row[0],
-                    measurement_unit=row[1],
-                )
-                ingredient.save()
-
-        with open(tags_file, encoding='utf-8') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                tag = Tag(
-                    name=row[0],
-                    color=row[1],
-                    slug=row[2],
-                )
-                tag.save()
+            with open(csv_file, encoding='utf-8') as file:
+                reader = csv.reader(file)
+                for id, row in enumerate(reader):
+                    data = model(id, *row)
+                    data.save()

@@ -60,34 +60,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=(IsAuthenticated,),
             )
     def favorite(self, request, pk):
-        user = self.request.user
-        recipe = get_object_or_404(Recipe, id=pk)
-        if self.request.method == 'POST':
-            if Favorite.objects.filter(
-                user=user,
-                recipe=recipe
-            ).exists():
-                return Response({'errors': 'Object already exists'},
-                                status=status.HTTP_400_BAD_REQUEST)
-            Favorite.objects.create(user=user, recipe=recipe)
-            serializer = FavoriteShoppingSerializer(
-                recipe, context={'request': request},)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        if self.request.method == 'DELETE':
-            if not Favorite.objects.filter(
-                user=user,
-                recipe=recipe
-            ).exists():
-                return Response(
-                    {'errors': 'Object not found or already deleted'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            favorite = get_object_or_404(Favorite, user=user, recipe=recipe)
-            favorite.delete()
-            return Response({'messages': 'Object deleted'},
-                            status=status.HTTP_204_NO_CONTENT)
-        return Response(
-            {'errors': 'Unauthorized'},
-            status=status.HTTP_401_UNAUTHORIZED)
+        return self.add_or_delete_object(Favorite,
+                                         request,
+                                         pk)
 
     @action(
             methods=('post', 'delete'),
@@ -95,29 +70,34 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=(IsAuthenticated,),
             )
     def shopping_cart(self, request, pk):
+        return self.add_or_delete_object(Shopping,
+                                         request,
+                                         pk)
+
+    def add_or_delete_object(self, model, request, pk):
         user = self.request.user
         recipe = get_object_or_404(Recipe, id=pk)
         if self.request.method == 'POST':
-            if Shopping.objects.filter(
+            if model.objects.filter(
                 user=user,
                 recipe=recipe
             ).exists():
                 return Response({'errors': 'Object already exists'},
                                 status=status.HTTP_400_BAD_REQUEST)
-            Shopping.objects.create(user=user, recipe=recipe)
+            model.objects.create(user=user, recipe=recipe)
             serializer = FavoriteShoppingSerializer(
                 recipe, context={'request': request},)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         if self.request.method == 'DELETE':
-            if not Shopping.objects.filter(
+            if not model.objects.filter(
                 user=user,
                 recipe=recipe
             ).exists():
                 return Response(
                     {'errors': 'Object not found or already deleted'},
                     status=status.HTTP_400_BAD_REQUEST)
-            shopping = get_object_or_404(Shopping, user=user, recipe=recipe)
-            shopping.delete()
+            data = get_object_or_404(model, user=user, recipe=recipe)
+            data.delete()
             return Response({'messages': 'Object deleted'},
                             status=status.HTTP_204_NO_CONTENT)
         return Response(
