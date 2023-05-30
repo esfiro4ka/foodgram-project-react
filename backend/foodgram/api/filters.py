@@ -1,7 +1,6 @@
 from django_filters.rest_framework import (ChoiceFilter, FilterSet,
                                            ModelChoiceFilter,
                                            ModelMultipleChoiceFilter)
-
 from recipes.models import Recipe, Tag
 from users.models import User
 

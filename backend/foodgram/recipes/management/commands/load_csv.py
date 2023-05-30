@@ -2,7 +2,6 @@ import csv
 
 from django.conf import settings
 from django.core.management import BaseCommand
-
 from recipes.models import Ingredient, Tag
 
 ALREDY_LOADED_ERROR_MESSAGE = 'The database is already loaded.'
