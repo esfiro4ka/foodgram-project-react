@@ -68,7 +68,8 @@ jobs:
             sudo docker compose stop
             sudo docker compose rm backend frontend
             sudo docker image rm esfiro4ka/foodgram-backend:latest esfiro4ka/foodgram-frontend:latest
-            sudo docker pull esfiro4ka/foodgram-backend:latest esfiro4ka/foodgram-frontend:latest
+            sudo docker pull esfiro4ka/foodgram-backend:latest
+            sudo docker pull esfiro4ka/foodgram-frontend:latest
             touch .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
