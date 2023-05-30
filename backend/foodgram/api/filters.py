@@ -34,11 +34,9 @@ class RecipesFilter(FilterSet):
 
     def filter(self, queryset, value, collection):
         data = collection.values_list('recipe', flat=True)
-        filtered_queryset = queryset.filter(id__in=data)
-        excluded_queryset = queryset.exclude(id__in=data)
         if value == '1':
-            return filtered_queryset
-        return excluded_queryset
+            return queryset.filter(id__in=data)
+        return queryset.exclude(id__in=data)
 
     class Meta:
         model = Recipe
