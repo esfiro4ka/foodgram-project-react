@@ -4,7 +4,7 @@
 
 ## Развернутый проект
 
-http://
+http://51.250.78.56/
 
 ## Описание
 Cайт Foodgram, «Продуктовый помощник» - это онлайн-сервис и API для него. На этом сервисе пользователи могут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
@@ -67,10 +67,10 @@ docker-compose exec backend python manage.py createsuperuser
 docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
-- Заполнить данными базу данных:
+- Заполнить данными базы данных Теги и Ингредиенты:
 
 ```
-docker-compose exec backend python manage.py loaddata fixtures.json
+docker-compose exec backend python manage.py load_csv
 ```
 
 ## Примеры запросов
