@@ -140,7 +140,6 @@ class UserViewSet(UserViewSet):
     сброс пароля и т.д.) определены в Djoser."""
     queryset = User.objects.all()
     lookup_field = 'id'
-    permission_classes = (IsAuthenticatedOrReadOnly,)
     pagination_class = CustomPageNumberPagination
 
     @action(
