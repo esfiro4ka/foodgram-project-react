@@ -7,14 +7,9 @@ services:
       - db_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
-    # TODO: убрать
-    ports:
-      - "5432:5432"
 
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
+    image: esfiro4ka/foodgram-backend:latest
     restart: always
     volumes:
       - static_volume:/app/static/
@@ -25,9 +20,7 @@ services:
       - ./.env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: esfiro4ka/foodgram-frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
 
