@@ -12,6 +12,7 @@ from rest_framework.permissions import (IsAuthenticated,
 from rest_framework.response import Response
 
 from api.filters import RecipesFilter
+from api.pagination import CustomPageNumberPagination
 from api.permissions import IsAuthorOrAdmin
 from api.serializers import (FavoriteShoppingSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
@@ -45,6 +46,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipesFilter
     permission_classes = (IsAuthorOrAdmin,)
+    pagination_class = CustomPageNumberPagination
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
@@ -140,6 +142,7 @@ class UserViewSet(UserViewSet):
     queryset = User.objects.all()
     lookup_field = 'id'
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = CustomPageNumberPagination
 
     @action(
             methods=('post', 'delete'),
@@ -188,8 +191,9 @@ class UserViewSet(UserViewSet):
     )
     def subscriptions(self, request):
         user = self.request.user
-        user_subscriptions = user.follower.values_list('id', flat=True)
+        user_subscriptions = user.follower.values_list('author_id', flat=True)
         queryset = User.objects.filter(id__in=user_subscriptions)
+        paginated_queryset = self.paginate_queryset(queryset)
         serializer = SubscriptionSerializer(
-            queryset, many=True, context={'request': request},)
-        return Response(serializer.data)
+            paginated_queryset, many=True, context={'request': request},)
+        return self.get_paginated_response(serializer.data)

@@ -28,5 +28,5 @@ class Command(BaseCommand):
             with open(csv_file, encoding='utf-8') as file:
                 reader = csv.reader(file)
                 for id, row in enumerate(reader):
-                    data = model(id, *row)
+                    data = model(id+1, *row)
                     data.save()

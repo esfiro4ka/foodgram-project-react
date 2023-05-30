@@ -3,7 +3,7 @@ from drf_base64.fields import Base64ImageField
 from rest_framework import serializers
 
 from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
-from users.models import Subscription, User
+from users.models import User
 
 
 class UserReadSerializer(UserSerializer):
@@ -19,7 +19,7 @@ class UserReadSerializer(UserSerializer):
         user = self.context['request'].user
         if user.is_anonymous:
             return False
-        return Subscription.objects.filter(user=user, author=author).exists()
+        return user.follower.filter(author=author).exists()
 
 
 class UserWriteSerializer(UserCreateSerializer):
@@ -114,7 +114,6 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     author = UserReadSerializer(read_only=True)
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
-    image = Base64ImageField()
 
     class Meta:
         fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited',
