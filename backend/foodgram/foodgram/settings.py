@@ -136,7 +136,7 @@ DJOSER = {
     },
 
     'PERMISSIONS': {
-        'user': ('rdjoser.permissions.CurrentUserOrAdminOrReadOnly',),
+        'user': ('djoser.permissions.CurrentUserOrAdminOrReadOnly',),
         'user_list': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
     }
 }
