@@ -43,7 +43,7 @@ class RecipesFilter(FilterSet):
 
 
 class IngredientsFilter(FilterSet):
-    """Search filter for Ingredients viewset."""
+    """Поиск по частичному вхождению в начале названия ингредиента."""
     name = CharFilter(lookup_expr='istartswith')
 
     class Meta:
