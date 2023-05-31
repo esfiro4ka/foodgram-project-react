@@ -1,21 +1,20 @@
 from collections import defaultdict
 
-from django.http import FileResponse
-from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import UserViewSet
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
 from api.filters import IngredientsFilter, RecipesFilter
 from api.pagination import CustomPageNumberPagination
 from api.permissions import IsAuthorOrAdmin
 from api.serializers import (FavoriteShoppingSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              SubscriptionSerializer, TagSerializer)
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from djoser.views import UserViewSet
 from recipes.models import Favorite, Ingredient, Recipe, Shopping, Tag
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from users.models import Subscription, User
 
 
