@@ -1,8 +1,16 @@
 from django_filters.rest_framework import (ChoiceFilter, FilterSet,
                                            ModelChoiceFilter,
                                            ModelMultipleChoiceFilter)
-from recipes.models import Recipe, Tag
+from recipes.models import Ingredient, Recipe, Tag
 from users.models import User
+
+
+class IngredientsFilter(FilterSet):
+    search_param = 'name'
+
+    class Meta:
+        model = Ingredient
+        fields = ('name',)
 
 
 class RecipesFilter(FilterSet):
