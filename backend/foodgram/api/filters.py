@@ -1,12 +1,13 @@
-from django_filters.rest_framework import (ChoiceFilter, FilterSet,
+from django_filters.rest_framework import (CharFilter, ChoiceFilter, FilterSet,
                                            ModelChoiceFilter,
                                            ModelMultipleChoiceFilter)
+
 from recipes.models import Ingredient, Recipe, Tag
 from users.models import User
 
 
 class IngredientsFilter(FilterSet):
-    search_param = 'name'
+    name = CharFilter(lookup_expr='istartswith')
 
     class Meta:
         model = Ingredient
