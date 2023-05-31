@@ -1,7 +1,7 @@
-from django_filters.rest_framework import (ChoiceFilter, FilterSet,
+from django_filters.rest_framework import (CharFilter, ChoiceFilter, FilterSet,
                                            ModelChoiceFilter,
                                            ModelMultipleChoiceFilter)
-from recipes.models import Recipe, Tag
+from recipes.models import Ingredient, Recipe, Tag
 from users.models import User
 
 
@@ -40,3 +40,12 @@ class RecipesFilter(FilterSet):
     class Meta:
         model = Recipe
         fields = ['is_favorited', 'author', 'is_in_shopping_cart', 'tags']
+
+
+class IngredientsFilter(FilterSet):
+    """Search filter for Ingredients viewset."""
+    name = CharFilter(lookup_expr='istartswith')
+
+    class Meta:
+        model = Ingredient
+        fields = ('name',)

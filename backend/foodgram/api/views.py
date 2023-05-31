@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from api.filters import RecipesFilter
+from api.filters import IngredientsFilter, RecipesFilter
 from api.pagination import CustomPageNumberPagination
 from api.permissions import IsAuthorOrAdmin
 from api.serializers import (FavoriteShoppingSerializer, IngredientSerializer,
@@ -30,8 +30,8 @@ class IngredientViewSet(viewsets.ModelViewSet):
     Реализован поиск по частичному вхождению в начале названия ингредиента."""
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
-    filter_backends = (SearchFilter,)
-    search_fields = ('^name',)
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filterset_class = IngredientsFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
