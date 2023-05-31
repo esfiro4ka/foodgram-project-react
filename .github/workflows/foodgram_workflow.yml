@@ -67,7 +67,7 @@ jobs:
           script: |
             sudo docker compose stop
             sudo docker compose rm backend frontend
-            sudo docker image rm esfiro4ka/foodgram-backend:latest esfiro4ka/foodgram-frontend:latest
+            sudo docker image rm esfiro4ka/foodgram-backend esfiro4ka/foodgram-frontend
             sudo docker pull esfiro4ka/foodgram-backend:latest
             sudo docker pull esfiro4ka/foodgram-frontend:latest
             touch .env
