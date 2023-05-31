@@ -42,7 +42,11 @@ class SubscriptionSerializer(UserReadSerializer):
 
     def get_recipes(self, author):
         recipes = Recipe.objects.filter(author=author)
+        request = self.context.get('request')
+        limit = request.GET.get('recipes_limit')
         if recipes:
+            if limit:
+                recipes = recipes[: int(limit)]
             serializer = FavoriteShoppingSerializer(
                 recipes,
                 context={'request': self.context.get('request')},
