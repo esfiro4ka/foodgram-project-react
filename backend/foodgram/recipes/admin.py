@@ -7,9 +7,16 @@ from recipes.models import Favorite, Ingredient, Recipe, Shopping, Tag
 class RecipeIngredientInlineFormSet(BaseInlineFormSet):
     def clean(self):
         super().clean()
+        total = 0
+        deleted = 0
         for form in self.forms:
             if not form.cleaned_data:
                 raise ValidationError('Поле не может быть пустым.')
+            total += 1
+            if form.cleaned_data['DELETE']:
+                deleted += 1
+        if deleted == total:
+            raise ValidationError('Поле не может быть пустым.')
 
 
 class RecipeIngredientInline(admin.TabularInline):

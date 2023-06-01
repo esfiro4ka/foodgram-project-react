@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_base64.fields import Base64ImageField
 from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
@@ -152,6 +153,14 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         fields = ('id', 'tags', 'author', 'ingredients',
                   'name', 'image', 'text', 'cooking_time')
         model = Recipe
+
+    def validate_ingredients(self, ingredients):
+        ingredients_set = set([item['id'] for item in ingredients])
+        if len(ingredients) != len(ingredients_set):
+            raise ValidationError(
+                'Нельзя добавлять ингредиент более одного раза.'
+            )
+        return ingredients
 
     def create_ingredient_amount(self, ingredients, recipe):
         for ingredient in ingredients:
