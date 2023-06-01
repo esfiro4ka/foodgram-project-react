@@ -33,7 +33,7 @@ class RecipesFilter(FilterSet):
 
     def filter(self, queryset, value, collection):
         data = collection.values_list('recipe', flat=True)
-        if value == '1':
+        if int(value):
             return queryset.filter(id__in=data)
         return queryset.exclude(id__in=data)
 

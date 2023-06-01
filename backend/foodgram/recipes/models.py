@@ -16,7 +16,7 @@ class Tag(models.Model):
         validators=[
             RegexValidator(
                 regex='^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
-                message='The color should be HEX!'
+                message='Цвет должен быть HEX-кодом!'
             )
         ],
         unique=True,
@@ -94,11 +94,11 @@ class Recipe(models.Model):
         blank=False,
         verbose_name='Описание'
     )
-    cooking_time = models.IntegerField(
+    cooking_time = models.PositiveIntegerField(
         blank=False,
         validators=[
             MinValueValidator(1,
-                              message='The minimum time is 1 minute!')],
+                              message='Минимальное время 1 минута!')],
         verbose_name='Время приготовления (в минутах)'
     )
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -121,10 +121,19 @@ class IngredientAmount(models.Model):
         verbose_name='Рецепт')
     ingredient = models.ForeignKey(
         Ingredient,
+        blank=False,
         related_name='ingredient',
         on_delete=models.CASCADE,
         verbose_name='Ингредиент')
     amount = models.PositiveSmallIntegerField(blank=False)
+
+    class Meta:
+        verbose_name = 'Количество ингредиента'
+        verbose_name_plural = 'Количество ингредиентов'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'],
+                name='unique_recipe_ingredient')]
 
     def __str__(self):
         return f'{self.recipe} {self.ingredient}'

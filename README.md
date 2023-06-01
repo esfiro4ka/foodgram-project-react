@@ -89,7 +89,7 @@ http://localhost:80/api/docs/redoc/
 
 ## Стек технологий
 
-Python 3, Django 2.2.16, Django REST Framework, PostgreSQL, Djoser.
+Python 3.7, Django 3.2.19, Django REST Framework 3.14.0, PostgreSQL 13.0, Djoser 2.1.0.
 
 ## Авторы
 

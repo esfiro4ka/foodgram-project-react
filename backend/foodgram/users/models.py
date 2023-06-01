@@ -14,7 +14,12 @@ def validate_username(value):
             if not regex_pattern.match(char):
                 invalid_chars.append(char)
         raise ValidationError(
-            f'Invalid characters: {", ".join(invalid_chars)}')
+            f'Неправильные символы: {", ".join(invalid_chars)}')
+    if value.lower() == "me":
+        raise ValidationError(
+            'Нельзя использовать "me" в качестве username!'
+        )
+    return value
 
 
 class User(AbstractUser):
