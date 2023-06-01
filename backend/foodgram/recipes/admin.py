@@ -1,10 +1,22 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from django.forms.models import BaseInlineFormSet
 from recipes.models import Favorite, Ingredient, Recipe, Shopping, Tag
+
+
+class RecipeIngredientInlineFormSet(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+        for form in self.forms:
+            if not form.cleaned_data:
+                raise ValidationError('Поле не может быть пустым.')
 
 
 class RecipeIngredientInline(admin.TabularInline):
     model = Recipe.ingredients.through
-    extra = 1
+    formset = RecipeIngredientInlineFormSet
+    extra = 0
+    min_num = 1
 
 
 class RecipeAdmin(admin.ModelAdmin):
